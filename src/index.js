@@ -12,4 +12,6 @@ const elementsClient = new ElementsClient(NODE_URL, NODE_PORT, 'user2', 'passwor
 //   .catch(console.error)
 // elementsClient.getWalletInfo().then(console.log).catch(console.error)
 
-elementsClient.issueAsset(10, 2).then(console.log).catch(console.error)
+// elementsClient.issueAsset(10, 2).then(console.log).catch(console.error)
+
+elementsClient.getNewAddress().then(console.log)

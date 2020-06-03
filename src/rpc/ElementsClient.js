@@ -10,4 +10,13 @@ export default class ElementsClient extends BitcoinClient {
   async issueAsset (assetAmount, tokenAmount, blind = true) {
     return this.request('issueasset', [assetAmount, tokenAmount, blind])
   }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/getnewaddress/
+   * @param {string!} [label=''] the address label.
+   * @param {string!} [addressType='legacy'] the address type.
+   */
+  async getNewAddress (label, addressType) {
+    return this.request('getnewaddress', [label, addressType])
+  }
 }

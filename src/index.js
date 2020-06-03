@@ -1,5 +1,5 @@
 import HttpClient from './rpc/HttpClient'
-import ElementsClient from './rpc/ElementsClient'
+import ElementsClient from './rpc/Elements/ElementsClient'
 
 const NODE_URL = 'localhost'
 const NODE_PORT = 18885
@@ -14,4 +14,7 @@ const elementsClient = new ElementsClient(NODE_URL, NODE_PORT, 'user2', 'passwor
 
 // elementsClient.issueAsset(10, 2).then(console.log).catch(console.error)
 
-elementsClient.getNewAddress().then(console.log)
+elementsClient.getNewAddress()
+  .then(addr =>
+    elementsClient.generateToAddress(2, addr).then(console.log)
+  )

@@ -1,4 +1,4 @@
-import BitcoinClient from './BitcoinClient'
+import BitcoinClient from '../BitcoinClient'
 
 export default class ElementsClient extends BitcoinClient {
   /**
@@ -12,11 +12,30 @@ export default class ElementsClient extends BitcoinClient {
   }
 
   /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/rawtransactions/rawissueasset/
+   * @param {string!} transactionHex transactionHex.
+   * @param {Object[]} issuances issuances to add to the transaction.
+   */
+  async rawIssueAsset (transactionHex, issuances) {
+    return this.request('rawissueasset', [transactionHex, issuances])
+  }
+
+  /**
    * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/getnewaddress/
    * @param {string!} [label=''] the address label.
    * @param {string!} [addressType='legacy'] the address type.
    */
   async getNewAddress (label, addressType) {
     return this.request('getnewaddress', [label, addressType])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/generating/generatetoaddress/
+   * @param {Number!} nblock number of blocks to generate.
+   * @param {String!} address the address that will receive the collected funds.
+   * @param {Number!} maxtries maxtries number.
+   */
+  async generateToAddress (nblock, address, maxtries = 1000000) {
+    return this.request('generatetoaddress', [nblock, address, maxtries])
   }
 }

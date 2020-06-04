@@ -1,4 +1,4 @@
-import BitcoinClient from '../BitcoinClient'
+import BitcoinClient from '../Bitcoin/BitcoinClient'
 
 export default class ElementsClient extends BitcoinClient {
   /**
@@ -25,7 +25,7 @@ export default class ElementsClient extends BitcoinClient {
    * @param {string!} [label=''] the address label.
    * @param {string!} [addressType='legacy'] the address type.
    */
-  async getNewAddress (label, addressType) {
+  async getNewAddress (label = null, addressType = null) {
     return this.request('getnewaddress', [label, addressType])
   }
 
@@ -37,5 +37,59 @@ export default class ElementsClient extends BitcoinClient {
    */
   async generateToAddress (nblock, address, maxtries = 1000000) {
     return this.request('generatetoaddress', [nblock, address, maxtries])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/listissuances/
+   * @param {string!} asset asset hex or associated asset label.
+   */
+  async listIssuances (asset = null) {
+    return this.request('listissuances', [asset])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/sendtoaddress/
+   * @param {string!} address the addres of the receiver.
+   * @param {number! | string!} amount the asset's amount to send.
+   * @param {string} comment
+   * @param {string} commentTo
+   * @param {boolean} substractFeeFromAmount
+   * @param {boolean} replaceable
+   * @param {number} confTarget
+   * @param {string} estimateMode
+   * @param {string} assetLabel
+   * @param {boolean} ignoreblindfail
+   */
+  async sendToAddress (address, amount, comment = '', commentTo = '', substractFeeFromAmount = false, replaceable, confTarget, estimateMode = 'UNSET', assetLabel, ignoreblindfail = true) {
+    return this.request('sendtoaddress', [address, amount, comment, commentTo, substractFeeFromAmount, replaceable, confTarget, estimateMode, assetLabel, ignoreblindfail])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/rawtransactions/createrawtransaction/
+   * @param {{txid: string!, vout: number!, sequence: number}[]} inputs the inputs array.
+   * @param {Object[]!} outputs the outputs array.
+   * @param {number} locktime
+   * @param {boolean} replaceable
+   */
+  async createRawTransaction (inputs, outputs, locktime = 0, replaceable = false) {
+    return this.request('createrawtransaction', [inputs, outputs, locktime, replaceable])
+  }
+
+  /**
+   * Decode an hex-encoded transaction.
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/rawtransactions/decoderawtransaction/
+   * @param {string!} hexstring the encoded transaction.
+   */
+  async decodeRawTransaction (hexstring) {
+    return this.request('decoderawtransaction', [hexstring])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/rawtransactions/fundrawtransaction/
+   * @param {string!} hexstring the encoded transaction to fund.
+   * @param {Object} options the options see (RPC reference link).
+   */
+  async fundRawTransaction (hexstring, options) {
+    return this.request('fundrawtransaction', [hexstring, options])
   }
 }

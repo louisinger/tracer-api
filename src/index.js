@@ -14,7 +14,18 @@ const elementsClient = new ElementsClient(NODE_URL, NODE_PORT, 'user2', 'passwor
 
 // elementsClient.issueAsset(10, 2).then(console.log).catch(console.error)
 
-elementsClient.getNewAddress()
-  .then(addr =>
-    elementsClient.generateToAddress(2, addr).then(console.log)
-  )
+async function main () {
+  // const addr = await elementsClient.getNewAddress()
+  // console.log(addr)
+  // const blocks = await elementsClient.generateToAddress(10, addr)
+  // console.log(blocks)
+  // const issue = await elementsClient.issueAsset(10, 0, true)
+  // console.log(issue)
+  // const issuances = await elementsClient.listIssuances()
+  // console.log(issuances)
+  const rawTx = await elementsClient.createRawTransaction([], [{ data: '00' }])
+  const tx = await elementsClient.decodeRawTransaction(rawTx)
+  console.log(tx.vout[0].scriptPubKey)
+}
+
+main()

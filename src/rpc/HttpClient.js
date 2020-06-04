@@ -46,6 +46,6 @@ export default class HttpClient {
    */
   async request (method, params = []) {
     return phin(this.requestOptions(method, params))
-      .then(result => result.body)
+      .then(result => result.body.result)
   }
 }

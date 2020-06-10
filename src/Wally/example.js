@@ -1,4 +1,4 @@
-const wally = require('./Wally/wally');
+const wally = require('./wally');
 
 wally.wally_sha256(Buffer.from('test', 'ascii')).then(function(uint8Array) {
   console.log(Buffer.from(uint8Array).toString('hex'))

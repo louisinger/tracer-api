@@ -1,0 +1,1 @@
+cmd_Debug/obj.target/deps.a := rm -f Debug/obj.target/deps.a && ar crs Debug/obj.target/deps.a Debug/obj.target/deps/src/combined.o Debug/obj.target/deps/src/combined_ccan.o Debug/obj.target/deps/src/combined_ccan2.o

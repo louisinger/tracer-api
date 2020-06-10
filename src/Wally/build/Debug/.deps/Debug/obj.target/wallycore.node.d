@@ -1,0 +1,1 @@
+cmd_Debug/obj.target/wallycore.node := g++ -shared -pthread -rdynamic -m64  -Wl,-soname=wallycore.node -o Debug/obj.target/wallycore.node -Wl,--start-group Debug/obj.target/wallycore/nodejs_wrap.o Debug/obj.target/deps.a -Wl,--end-group 

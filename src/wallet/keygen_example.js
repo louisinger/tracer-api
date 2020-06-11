@@ -1,7 +1,7 @@
 import { OP_DUP, WALLY_CA_PREFIX_LIQUID_REGTEST, wally_confidential_addr_from_addr, OP_HASH160, OP_EQUALVERIFY, OP_CHECKSIG, wally_ec_public_key_from_private_key, wally_asset_blinding_key_to_ec_private_key, wally_asset_blinding_key_from_seed, WALLY_ADDRESS_VERSION_P2PKH_LIQUID_REGTEST, WALLY_ADDRESS_TYPE_P2PKH, wally_hash160, BIP32_FLAG_KEY_PRIVATE, BASE58_FLAG_CHECKSUM, BIP32_VER_TEST_PRIVATE, bip39_mnemonic_to_seed, bip32_key_from_seed, wally_base58_from_bytes, bip32_pubkey_from_parent, bip32_privkey_from_parent } from './Wally/wally'
 import { encode, decode } from 'bs58check'
 
-import englishWords from './english.json'
+import englishWords from './dictionaries/english.json'
 
 let mnemonic = 'fork walnut dwarf salmon life vacuum repeat tent magnet library phone auction myth bird install'
 mnemonic = mnemonic + englishWords[291] + englishWords[983] + englishWords[221] + englishWords[902] + englishWords[1111]
@@ -20,6 +20,7 @@ function scriptPubKeyFromAddr (addr) {
 
 async function main () {
   const seed = await bip39_mnemonic_to_seed(mnemonic, '')
+  console.log('seed: ', seed)
   const walletMasterKey = await bip32_key_from_seed(seed, BIP32_VER_TEST_PRIVATE, 0)
 
   // pub key

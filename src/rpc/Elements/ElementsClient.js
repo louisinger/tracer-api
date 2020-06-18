@@ -21,6 +21,39 @@ export default class ElementsClient extends BitcoinClient {
   }
 
   /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/rawtransactions/rawreissueasset/
+   * @param {string!} transactionHex the transaction hex to include reissuances.
+   * @param {[{asset_amount: string!, asset_address: string!, input_index: number!, asset_blinder: string!, entropy: string!}]} reissuances
+   */
+  async rawReIssueAsset (transactionHex, reissuances) {
+    return this.request('rawreissueasset', [transactionHex, reissuances])
+  }
+
+  /**
+   * Import the given address in the node's wallet.
+   * @param {string!} address the bitcoin/elements address to add.
+   * @param {string!} [label=''] optionnal label of the address.
+   * @param {boolean!} [rescan=true] rescan the transactions or not.
+   * @param {boolean!} [p2sh=false] add the p2sh hash version as well.
+   */
+  async importAddress (address, label = '', rescan = true, p2sh = false) {
+    return this.request('importaddress', [address, label, rescan, p2sh])
+  }
+
+  /**
+   * @param {number} [minconf=0] minimum number of confirmations.
+   * @param {number} [maxconf=9999999] maximum number of confirmations.
+   * @param {string[]} [adresses=[]] maximum number of confirmations.
+   * @param {boolean} [includeUnsafe=true] include the unsafe utxo or not.
+   * @param {number} [minimunAmount=0] min amount of utxo.
+   * @param {number} [maximumAmount=2100000] max amount of utxo.
+   * @param {string} [asset=''] the asset string to exchange.
+   */
+  async listUnspent (minconf = 1, maxconf = 9999999, addresses = [], includeUnsafe = true, asset = '') {
+    return this.request('listunspent', [minconf, maxconf, addresses, includeUnsafe, { asset }])
+  }
+
+  /**
    * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/getnewaddress/
    * @param {string!} [label=''] the address label.
    * @param {string!} [addressType='legacy'] the address type.
@@ -70,9 +103,10 @@ export default class ElementsClient extends BitcoinClient {
    * @param {Object[]!} outputs the outputs array.
    * @param {number} locktime
    * @param {boolean} replaceable
+   * @param {object!} assetOutput
    */
-  async createRawTransaction (inputs, outputs, locktime = 0, replaceable = false) {
-    return this.request('createrawtransaction', [inputs, outputs, locktime, replaceable])
+  async createRawTransaction (inputs, outputs, locktime = 0, replaceable = false, assetOutput = null) {
+    return this.request('createrawtransaction', [inputs, outputs, locktime, replaceable, assetOutput])
   }
 
   /**
@@ -82,6 +116,15 @@ export default class ElementsClient extends BitcoinClient {
    */
   async decodeRawTransaction (hexstring) {
     return this.request('decoderawtransaction', [hexstring])
+  }
+
+  /**
+   * https://elementsproject.org/en/doc/0.18.1.7/rpc/wallet/blindrawtransaction/
+   * @param {string!} txHex the transaction hex-encoded to blind.
+   * @param {boolean} [ignoreblindfail=true] returns a transaction even if a input blinding has failed.
+   */
+  async blindRawTransaction (txHex, ignoreblindfail = true) {
+    return this.request('blindrawtransaction', [txHex, ignoreblindfail])
   }
 
   /**

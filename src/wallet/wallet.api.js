@@ -78,9 +78,9 @@ export async function generateConfidentialAddress (masterPrivateKey, masterBlind
  * @param {Uint8Array!} masterPrivateKey the wallet's master blinding to derive.
  * @param {number} index the index of the address to generate.
  */
-export async function generateAddress (masterPrivateKey, index) {
+export async function generateAddress (masterPrivateKey, index = 0) {
   // pub key
-  const walletDerivedKey = await bip32_pubkey_from_parent(masterPrivateKey, 2, BIP32_FLAG_KEY_PRIVATE)
-  const addr = await pubKeyToAddr(walletDerivedKey, WALLY_ADDRESS_TYPE_P2PKH, ADDRESS_VERSION)
+  const pubkey = await bip32_pubkey_from_parent(masterPrivateKey, index, BIP32_FLAG_KEY_PRIVATE)
+  const addr = await pubKeyToAddr(pubkey, WALLY_ADDRESS_TYPE_P2PKH, ADDRESS_VERSION)
   return addr
 }

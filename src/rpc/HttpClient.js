@@ -46,6 +46,10 @@ export default class HttpClient {
    */
   async request (method, params = []) {
     return phin(this.requestOptions(method, params))
-      .then(result => result.body.result)
+      .then(result => {
+        // console.log(result.body)
+        return result.body.result
+      })
+      .catch(console.error)
   }
 }
